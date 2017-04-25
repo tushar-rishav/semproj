@@ -1,0 +1,22 @@
+\thispagestyle{plain}
+\begin{center}
+\textbf{\textbf{\fontsize{16pt}{24pt}\selectfont ABSTRACT}}
+\end{center}
+
+\vspace{0.3cm}
+\fontsize{12pt}{18pt}\selectfont This project studies the effect of various input variables
+(relative compactness, surface area, wall area, roof area, overall height, orientation, glazing area, glazing area distribution) on two output variables, namely heating load (HL) and cooling load (CL) of buildings. Reports suggest that building energy consumption has
+steadily increased over the past decades worldwide \cite{perez2008pout}, \cite{cai2009ren}, and heating, ventilation and air conditioning
+(HVAC), which have a catalytic role in regulating the indoor climate, account for most of the energy use in
+the buildings. Therefore, one way to alleviate the ever increasing demand for additional energy supply is to
+have more energy-efficient building designs with improved energy conservation properties. When it comes
+to efficient building design, the computation of the heating load (HL) and the cooling load (CL) is required to
+determine the specifications of the heating and cooling equipment needed to maintain comfortable indoor air
+conditions.
+Various Machine Learning approach (Regression, SVM, ANN etc) is to be studied, implemented and
+compared on a datasets obtained from Machine Learning Repository, Centre for Machine Learning and
+Intelligent Systems, UCI. Finally, a model with the best accuracy is proposed.
+
+\textit{Keywords}: Energy efficiency; Heating load; Cooling load; Regression; SVM; ANN
+
+\newpage

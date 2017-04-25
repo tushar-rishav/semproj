@@ -1,0 +1,51 @@
+This is BibTeX, Version 0.99d (TeX Live 2016)
+Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
+The top-level auxiliary file: main.aux
+The style file: unsrt.bst
+Database file #1: tushar_refs.bib
+Warning--empty journal in perez2008pout
+Too many commas in name 1 of "W.G. Cai, Y. Wu, Y. Zhong, H. Ren" for entry cai2009ren
+while executing---line 944 of file unsrt.bst
+Warning--empty journal in cai2009ren
+You've used 2 entries,
+            1791 wiz_defined-function locations,
+            458 strings with 3795 characters,
+and the built_in function-call counts, 480 in all, are:
+= -- 46
+> -- 8
+< -- 0
++ -- 4
+- -- 2
+* -- 38
+:= -- 77
+add.period$ -- 6
+call.type$ -- 2
+change.case$ -- 2
+chr.to.int$ -- 0
+cite$ -- 4
+duplicate$ -- 18
+empty$ -- 51
+format.name$ -- 2
+if$ -- 99
+int.to.chr$ -- 0
+int.to.str$ -- 2
+missing$ -- 2
+newline$ -- 13
+num.names$ -- 2
+pop$ -- 6
+preamble$ -- 1
+purify$ -- 0
+quote$ -- 0
+skip$ -- 6
+stack$ -- 0
+substring$ -- 56
+swap$ -- 0
+text.length$ -- 0
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 0
+warning$ -- 2
+while$ -- 6
+width$ -- 3
+write$ -- 22
+(There was 1 error message)
