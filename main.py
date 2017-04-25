@@ -1,8 +1,11 @@
 # -*- coding: utf-8 -*-
+import matplotlib.mlab as mlab
 import matplotlib.pyplot as plt
+import numpy as np
 import pandas as pd
 
 from itertools import cycle
+from scipy.stats import spearmanr
 from sklearn.model_selection import train_test_split
 from sklearn import linear_model, svm
 from sklearn.neural_network import MLPRegressor
@@ -14,6 +17,9 @@ class Data(object):
         Class for pre-processing data.
     """
     def __init__(self, filename="data.csv", cold=0):
+        self.label = ["Relative Compactness", "Surface Area", "Wall Area", "Roof Area",
+                      "Overall Height", "Orientation", "Glazing Area",
+                      "Glazing Area Distribution", "Heating Load", "Cooling Load"]
         self.data = pd.read_csv(filename)
         self.cold = cold
         X, y = self.data.ix[:,0:8].as_matrix(), self.data.ix[:,8:10].as_matrix()
@@ -25,7 +31,16 @@ class Data(object):
         scaler.fit(self.X_train)
         self.X_train = scaler.transform(self.X_train)
         self.X_test = scaler.transform(self.X_test)
-
+    
+    def get_sp_rank(self):
+        """
+            Return Spearman rank correlation coefficient.
+        """
+        
+        return [(spearmanr(self.data.ix[:, i:i+1], self.data.ix[:, 8:9]),
+                 spearmanr(self.data.ix[:, i:i+1], self.data.ix[:, 9:10]))
+                 for i in range(len(self.label)-2)]
+    
     def __repr__(self):
         pass
 
@@ -129,21 +144,56 @@ def plot_feature_correlation(data):
         y1	Heating Load 
         y2	Cooling Load
     """
-    label = ["Relative Compactness", "Surface Area", "Wall Area", "Roof Area",
-             "Overall Height", "Orientation", "Glazing Area",
-             "Glazing Area Distribution", "Heating Load", "Cooling Load"]
-    cycol = cycle('bgrcmk').next
-    nf = len(label)-2    
     
+    cycol = cycle('bgrcmk').next
+    nf = len(data.label) - 2
+    
+    plt.figure(1)   # X vs X
     for i in range(nf):
         for j in range(nf):
             plt.subplot(nf, nf, i*nf+j+1)
             plt.axis('off')
             plt.scatter(data.data.ix[:, j:j+1].as_matrix(),
                         data.data.ix[:, i:i+1].as_matrix(),
-                        color = cycol())        
+                        color = cycol())
+
+    plt.figure(2)   # Y vs X
+    for i in range(nf):
+        clr = cycol()
+        plt.subplot(2, 8, i+1)
+        plt.axis('off')
+        plt.scatter(data.data.ix[:, i:i+1].as_matrix(),
+                    data.data.ix[:, nf:nf+1].as_matrix(),
+                    color = clr)
+        
+        plt.subplot(2, 8, i+9)
+        plt.axis('off')
+        plt.scatter(data.data.ix[:, i:i+1].as_matrix(),
+                    data.data.ix[:, nf+1:nf+2].as_matrix(),
+                    color = clr)
     
     plt.show()
+
+def plot_pd(data):
+    """
+        Plot probablility densities.
+    """
+    cycol = cycle('bgrcmk').next
+    nf = len(data.label)
+
+    # the histogram of the data
+    for i in range(nf):
+        plt.figure(i+1)
+        pdf, bins, patches = plt.hist(data.data.ix[:, i:i+1].as_matrix(),
+                                      20, normed=1, facecolor=cycol(), alpha=0.75)
+        print np.sum(pdf * np.diff(bins))   # sums to 1
+        
+        plt.xlabel(data.label[i])
+        plt.ylabel('Probability')
+        plt.grid(True)
+
+    plt.show()
+
 
 
 def main():
@@ -154,9 +204,13 @@ def main():
     svr = SVRM()
     models = [("Linear", linear), ("Ridge", ridge),
               ("ANN", ann), ("SVM", svr)]
+    
     for model_name, model_obj in models: print model_name, model_obj.accuracy
+    
     plot_feature_correlation(data)
     plot_model_accuracy(models)
+    plot_pd(data)
+    print data.get_sp_rank()
     
 
 if __name__ == "__main__":
