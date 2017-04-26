@@ -1,4 +1,10 @@
 \addvspace {10\p@ }
-\contentsline {table}{\numberline {1.1}{\ignorespaces Table to test captions and labels\relax }}{2}{table.caption.2}
 \addvspace {10\p@ }
-\contentsline {table}{\numberline {2.1}{\ignorespaces Table to test captions and labels\relax }}{6}{table.caption.6}
+\addvspace {10\p@ }
+\contentsline {table}{\numberline {3.1}{\ignorespaces Features\relax }}{5}{table.caption.1}
+\contentsline {table}{\numberline {3.2}{\ignorespaces Responses\relax }}{5}{table.caption.1}
+\contentsline {table}{\numberline {3.3}{\ignorespaces Association strength estimated using the Spearman rank correlation coefficient of the eight input variables (X1. . . X8) with heating load (y1).\relax }}{10}{table.caption.10}
+\contentsline {table}{\numberline {3.4}{\ignorespaces Association strength estimated using the Spearman rank correlation coefficient of the eight input variables (X1. . . X8) with cooling load (y2).\relax }}{10}{table.caption.11}
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\addvspace {10\p@ }

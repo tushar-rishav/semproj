@@ -229,7 +229,9 @@ def main():
     
     for model_name, model_obj in models: print model_name, model_obj.accuracy
     sp_result = data.get_sp_rank()
-    
+    print sp_result
+    import sys
+    sys.exit(1)
     plot_feature_correlation(data)
     plot_model_accuracy(models)
     plot_pd(data)
