@@ -18,7 +18,7 @@ Ridge regression addresses some of the problems of Ordinary Least Squares by imp
 Here, $\alpha \geq 0$ is a complexity parameter that controls the amount of shrinkage: the larger the value of $\alpha$, the greater the amount of shrinkage and thus the coefficients become more robust to collinearity.
 \newpage
 \section{Non-Linear models}
-  When the data has a non-linear relationship between dependent and independent variables, then non-linear models tend to perform better than linear models. Artificial Neural Network (ANN) models employ data-driven, self-adaptive methods, and can be used to perform nonlinear modeling without the need for prior knowledge about the relationship between input and output variables. They have been proven to be universal function approximators, and are capable of approximating highly nonlinear system behaviors by constructing behaviors on the basis of historical system data. The most commonly used supervised neural network is MLP, which we shall investigate a little more in further sections.
+  When the data has a non-linear relationship between dependent and independent variables, then non-linear models tend to perform better than linear models.
   \begin{figure}[h!]
     \centering
     \includegraphics[width=0.5\linewidth]{non_linear}
@@ -26,7 +26,7 @@ Here, $\alpha \geq 0$ is a complexity parameter that controls the amount of shri
     \label{fig:non_linear}                    
 \end{figure}
   \subsection{Artificial Neural Networks}
-  Artificial Neural Networks are a class of Machine learning algorithms inspired from the neurons of the human body (fig \ref{fig:neuron}). This is biologically inspired machine learning algorithm. A neuron is a single unit that has several inputs with associated weights and an activation function. The weights are used to represent the strength of each input. Depending on the amount of activation, the neuron produces its own activity and sends this along its outputs.
+  Artificial Neural Networks are a class of Machine Learning Algorithms inspired from the neurons of the human body. This is biologically inspired machine learning algorithm. A neuron is a single unit that has several inputs with associated weights and an activation function. The weights are used to represent the strength of each input. Depending on the amount of activation, the neuron produces its own activity and sends this along its outputs.
   \begin{figure}[h!]
     \centering
     \includegraphics[width=0.5\linewidth]{neuron}
@@ -41,7 +41,9 @@ Here, $\alpha \geq 0$ is a complexity parameter that controls the amount of shri
   \end{figure}
   \newpage
   
-The artificial equivalent (fig \ref{fig:ann}) of a neuron is a node that receives a set of weighted inputs, processes their sum with its activation function \( \phi \) \, and passes the result of the activation function to nodes further down the graph. We can then form a network by chaining these nodes together. Usually this is done in layers that is one layer's outputs are connected to the next layer's inputs (fig \ref{fig:annlayer}).
+The artificial equivalent of a neuron is a node that receives a set of weighted inputs, processes their sum with its activation function \( \phi \) \, and passes the result of the activation function to nodes further down the graph. We can then form a network by chaining these nodes together. Usually this is done in layers that is one layer's outputs are connected to the next layer's inputs.
+Our problem is a supervised classification problem and hence we feed the training labeled training set to the network. Training in this case involves learning the correct edge weights to produce the target output given the input. The network then generalizes for new inputs.
+The evaluation method is binary cross entropy. Convex optimization is used to minimize the objective function and uses Stochastic Gradient Descent.
 
 \begin{figure}[h!]
     \centering
@@ -50,15 +52,14 @@ The artificial equivalent (fig \ref{fig:ann}) of a neuron is a node that receive
     \label{fig:annlayer}                    
 \end{figure}
 
-\subsubsection{Training}
-  The ANN is trained using Backpropagation algorithm. Backpropagation (BP) is a traditional training algorithm used for the MLP model. It feeds back the prediction errors from the output layer to the input layer and the weights of the links between the neurons are adjusted according to the BP algorithm. Upon completion of the weight adjustments, a new prediction is carried out to evaluate a new prediction error for the next epoch of weight adjustments. These procedures are repeated numerous times until a satisfactory prediction result is achieved.
+The ANN is trained using Back-Propagation algorithm.
 This is a method for updating the weights by propagating the error backwards, starting from the output layer, until each neuron has an associated error value which roughly represents its contribution to the original output. 
 \newline
 Here the Loss function is SSE (sum-squared error).
 \begin{equation}
   f(x) = \sigma (Wx + b)
 \end{equation}
-I have used the sigmoid activation function which is
+We have used the sigmoid activation function which is
 \begin{equation}
   \sigma (z) = e^z/(e^z+1)
 \end{equation} 

@@ -15,5 +15,12 @@
 \contentsline {figure}{\numberline {3.12}{\ignorespaces Scatter plot grid between features (X) vs responses (Y)\relax }}{8}{figure.caption.8}
 \contentsline {figure}{\numberline {3.13}{\ignorespaces Spearman rank correlation coeff. for various features\relax }}{9}{figure.caption.9}
 \addvspace {10\p@ }
+\contentsline {figure}{\numberline {4.1}{\ignorespaces Intutively, non-linear model fits better.\relax }}{12}{figure.caption.14}
+\contentsline {figure}{\numberline {4.2}{\ignorespaces Neurons in human brain\relax }}{13}{figure.caption.15}
+\contentsline {figure}{\numberline {4.3}{\ignorespaces Artificial neuron\relax }}{13}{figure.caption.16}
+\contentsline {figure}{\numberline {4.4}{\ignorespaces Artificial neuron with various layers\relax }}{13}{figure.caption.17}
 \addvspace {10\p@ }
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {6.1}{\ignorespaces Cross-validation score for Ridge regression\relax }}{21}{figure.caption.19}
+\contentsline {figure}{\numberline {6.2}{\ignorespaces Models accuracy : Linear (Ridge) vs Non-linear (ANN)\relax }}{22}{figure.caption.20}
 \addvspace {10\p@ }

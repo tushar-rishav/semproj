@@ -1,0 +1,60 @@
+\begin{thebibliography}{10}
+
+\bibitem{perez2008pout}
+L.~Perez-Lombard, J.~Ortiz, and C.~Pout.
+\newblock A review on buildings energy consumption information, energy and
+  buildings.
+\newblock 40(3):394--398, 2008.
+
+\bibitem{cai2009ren}
+W.G. Cai, Y.~Wu, Y.~Zhong, and H.~Ren.
+\newblock China building energy consumption: situation challenges and
+  corresponding measures.
+\newblock 37(6):2054--2059, 2009.
+
+\bibitem{Hunter:2007}
+Hunter and J.~D.
+\newblock Matplotlib: A 2d graphics environment.
+\newblock {\em Computing In Science \& Engineering}, 9(3):90--95, 2007.
+
+\bibitem{97d2aa88078644a3ab2ef0ca5fd99212}
+Crawley, Drury B., Hand, Jon W., Michael Kummert, Griffith, and Brent T.
+\newblock Contrasting the capabilities of building energy performance
+  simulation programs.
+\newblock {\em Building and Environment}, 43(4):661--673, 2008.
+
+\bibitem{sanas2012xifara}
+A.~Tsanas and A.~Xifara.
+\newblock Accurate quantitative estimation of energy performance of residential
+  buildings using statistical machine learning tools.
+\newblock 49:560--567, 2012.
+
+\bibitem{hani2012koiv}
+A.~Hani and T.~Koiv.
+\newblock Energy consumption monitoring analysis for residential, educational
+  and public buildings.
+\newblock 3(3):231--238, 2012.
+
+\bibitem{dong2005cao}
+B.~Dong, Cao, C., Lee, and S.~E.
+\newblock Applying support vector machines to predict building energy
+  consumption in tropical region.
+\newblock 37(5):545--553, 2005.
+
+\bibitem{kwok2011yuen}
+S.S.K. Kwok, R.K.K. Yuen, and E.W.M. Lee.
+\newblock An intelligent approach to assessing the effect of building occupancy
+  on building cooling load prediction.
+\newblock 2011.
+
+\bibitem{yu2010zhun}
+Yu, Zhun, Haghighat, Fariborz, Fung, Benjamin C.M., Yoshino, and Hiroshi.
+\newblock A decision tree method for building energy demand modeling.
+\newblock 42(10):1637--1646, 2010.
+
+\bibitem{bishop}
+Christopher~M. Bishop.
+\newblock {\em Pattern Recognition and Machine Learning}.
+\newblock Springer Press, 2006.
+
+\end{thebibliography}

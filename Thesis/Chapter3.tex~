@@ -129,7 +129,7 @@
 \end{figure}
 \newpage
 \subsection{Conclusion}
-We observe that there is no unimodal peak in the middle or the symmetry. Hence, the data is non-Gaussian.
+We observe that there is no unimodal peak in the middle or the symmetry. Hence the data is non-Gaussian.
 
 \section{Correlation}
   \subsection{Scatter plot}
@@ -149,7 +149,7 @@ Correlation plot between different features and between features and responses h
     \end{figure}
 
   \subsection{Spearman rank correlation coefficient}
-    As concluded from the histogram plot above, the data is non-Gaussian, so we use the Spearman rank correlation coefficient to obtain a statistical metric regarding the association strength of each input variable with each of the two outputs. The Spearman rank correlation coefficient can characterize general monotonic relationships and lies in the range [-1 1], where negative sign indicates inversely proportional and positive sign indicates proportional rela- tionship, whilst the magnitude denotes how strong this relationship is.
+    As observed from the histogram plot above, the data is non-Gaussian, so we used the Spearman rank correlation coefficient to obtain a statistical metric regarding the association strength of each input variable with each of the two outputs. The Spearman rank correlation coefficient can characterize general monotonic relationships and lies in the range [-1 1], where negative sign indicates inversely proportional and positive sign indicates proportional rela- tionship, whilst the magnitude denotes how strong this relationship is.
     
     \begin{figure}[htbp]
       \hspace*{-2.1cm}

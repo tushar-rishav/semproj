@@ -1,0 +1,15 @@
+\section{Model accuracy}
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.9\linewidth]{cv.png}
+    \caption{Cross-validation score for Ridge regression}
+    \label{fig:cv}                    
+\end{figure}
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.9\linewidth]{accuracy.png}
+    \caption{Models accuracy : Linear (Ridge) vs Non-linear (ANN)}
+    \label{fig:accuracy}                    
+\end{figure}
