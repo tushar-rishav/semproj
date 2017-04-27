@@ -147,10 +147,8 @@ Correlation plot between different features and between features and responses h
       \caption{Scatter plot grid between features (X) vs responses (Y)}
       \label{fig:scatter_xy}
     \end{figure}
-
   \subsection{Spearman rank correlation coefficient}
     As concluded from the histogram plot above, the data is non-Gaussian, so we use the Spearman rank correlation coefficient to obtain a statistical metric regarding the association strength of each input variable with each of the two outputs. The Spearman rank correlation coefficient can characterize general monotonic relationships and lies in the range [-1 1], where negative sign indicates inversely proportional and positive sign indicates proportional rela- tionship, whilst the magnitude denotes how strong this relationship is.
-    
     \begin{figure}[htbp]
       \hspace*{-2.1cm}
       \includegraphics[width=1.3\textwidth]{sp_coeff}
@@ -209,6 +207,31 @@ Correlation plot between different features and between features and responses h
             \hline
           \end{tabular}
     \end{table}
-  
+    \subsection{Covariance Matrix for features(X)}
+          \begin{equation}
+            \Corr(X, Y) = \frac{\Cov(X, Y)}{\sigma_{x}\sigma_{y}} = \frac{\E[(X-\mu_{x})(Y-\mu_{y})]}{\sigma_{x}\sigma_{y}}  
+          \end{equation}
+          \newline
+          \begin{equation}
+            \left[
+              \begin{matrix}
+                  1.0 & -1.0 & -0.254 & -0.870 & 0.869 & 0.002 & 0.003 & 0.003\\
+-1.0 & 1.0 & 0.254 & 0.870 & -0.869 & -0.002 & -0.004 & -0.003\\
+-0.254 & 0.254 & 0.999 & -0.195 & 0.221 & -0.001 & -0.001 & -0.001\\
+-0.870 & 0.870 & -0.195 & 1.0 & -0.937 & -0.003 & -0.003 & -0.003\\
+0.869 & -0.869 & 0.221 & -0.937 & 1.0 & 0.002 & 0.002 & 0.002\\
+0.002 & -0.002 & -0.001 & -0.003 & 0.002 & 1.0 & -0.003 & -0.003\\
+0.003 & -0.004 & -0.002 & -0.003 & 0.002 & -0.003 & 1.0 & 0.184\\
+0.003 & -0.003 & -0.001 & -0.003 & 0.002 & -0.003 & 0.184 & 1.0
+              \end{matrix}
+            \right]
+    \end{equation}
+    \begin{figure}[htbp]
+      \hspace*{-6.1cm}
+      \includegraphics[width=1.7\textwidth]{cov_matrix}
+      \caption{Covariance matrix shown as Colour Map}
+      \label{fig:cov_matrix}
+    \end{figure}
+    \newpage  
   \subsection{Conclusion}
-  Figure \ref{fig:hist_rc} presents the empirical probability distributions of all the input and output variables. These distributions demonstrate that none of the variables follows the normal distribution. Figure \ref{fig:scatter_xy} displays the scatter plots for each of the (normalized) input variables with each of the two output variables. These scatter plots show that any functional relationship of the input variables and the output variables is not trivial. This suggests that we can reasonably expect that classical learners such as linear regression (linear models) may fail to find an accurate mapping of the input variables to the output variables. Therefore, these plots intuitively justify the need to experiment with complicated learners such as Artificial Neural Networks (non linear models).
+  Figure \ref{fig:hist_rc} presents the empirical probability distributions of all the input and output variables. These distributions demonstrate that none of the variables follows the normal distribution. Figure \ref{fig:scatter_xy} displays the scatter plots for each of the (normalized) input variables with each of the two output variables. These scatter plots and Color Map show that any functional relationship of the input variables and the output variables is not trivial. This suggests that we can reasonably expect that classical learners such as linear regression (linear models) may fail to find an accurate mapping of the input variables to the output variables. Therefore, these plots intuitively justify the need to experiment with complicated learners such as Artificial Neural Networks (non linear models).

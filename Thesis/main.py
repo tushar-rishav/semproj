@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import matplotlib.mlab as mlab
 import matplotlib.pyplot as plt
+import matplotlib.ticker as ticker
 import numpy as np
 import pandas as pd
 
@@ -20,20 +21,23 @@ class Data(object):
         Class for pre-processing data.
     """
     def __init__(self, filename="data.csv", cold=0):
-        self.label = ["Rel Compactness", "Surface Area", "Wall Area", 
-                      "Roof Area", "Overall Ht.", "Orientation", 
-                      "Glazing Area", "Glazing Area Distribution", 
-                      "Heating Load", "Cooling Load"]
+        self.label = ["Rel Compactness", "Surface Area", 
+                      "Wall Area", "Roof Area",
+                      "Overall Ht.", "Orientation", "Glazing Area",
+                      "Glazing Area Distribution", "Heating Load", 
+                      "Cooling Load"]
         self.data = pd.read_csv(filename)
         self.cold = cold
-        X = self.data.ix[:,0:8].as_matrix()
-        y = self.data.ix[:,8:10].as_matrix()
+        self.X = self.data.ix[:,0:8].as_matrix()
+        self.y = self.data.ix[:,8:10].as_matrix()
         scaler = StandardScaler()
-        self.X_train,self.X_test,self.y_train,self.y_test = train_test_split(
-                                        X,y, test_size=0.3, random_state=0)
+        self.X_train, self.X_test, self.y_train, self.y_test = train_test_split(
+            self.X,self.y,test_size=0.4,random_state=0)
         scaler.fit(self.X_train)
+        scaler.fit(self.X)
         self.X_train = scaler.transform(self.X_train)
         self.X_test = scaler.transform(self.X_test)
+        self.X = scaler.transform(self.X)
     
     def get_sp_rank(self):
         """
@@ -48,10 +52,10 @@ class Data(object):
 
 
 def cross_validator(func):
-    def inner_wrap(self, data):
+    def inner_wrap(self):
         est, est_cv = func()
-        X = data.ix[:,0:8].as_matrix()
-        y = data.ix[:,8:10].as_matrix()
+        X = self.X
+        y = self.y
         alphas = np.logspace(-4, -0.5, 30)
         scores = []
         scores_std = []
@@ -59,42 +63,21 @@ def cross_validator(func):
 
         for alpha in alphas:
             est.alpha = alpha
-            this_scores = cross_val_score(est, X, y,
-                            cv=n_folds, n_jobs=1)
+            this_scores = cross_val_score(est, X, y, cv=n_folds, n_jobs=1)
             scores.append(np.mean(this_scores))
             scores_std.append(np.std(this_scores))
 
         scores, scores_std = np.array(scores), np.array(scores_std)
-
-        plt.figure().set_size_inches(8, 6)
-        plt.semilogx(alphas, scores)
-
-        std_error = scores_std / np.sqrt(n_folds)
-
-        plt.semilogx(alphas, scores + std_error, 'b--')
-        plt.semilogx(alphas, scores - std_error, 'b--')
-
-        plt.fill_between(alphas,
-                scores + std_error,scores - std_error,alpha=0.2)
-
-        plt.ylabel('CV score +/- std error')
-        plt.xlabel('alpha')
-        plt.axhline(np.max(scores), linestyle='--', color='.5')
-        plt.xlim([alphas[0], alphas[-1]])
-
         est_cv.alphas = alphas
         est_cv.random_state = 0
         k_fold = KFold(n_folds)
-
         scores = []
         for k, (train, test) in enumerate(k_fold.split(X, y)):
-            est_cv.fit(data.ix[train, 0:8].as_matrix(),
-                data.ix[train, 8+self.cold: 9+self.cold].as_matrix())
-            scores.append(est_cv.score(data.ix[test, 0:8].as_matrix(),
-                data.ix[test, 8+self.cold: 9+self.cold].as_matrix()))
+            est_cv.fit(X[train, 0:8], y[train, self.cold: 1+self.cold])
+            scores.append(est_cv.score(X[test, 0:8],
+                                    y[test, self.cold: 1+self.cold]))
 
-        plt.show()
-        return np.mean(scores)*100
+        return np.mean(scores)*100, est_cv
     
     return inner_wrap
 
@@ -105,6 +88,7 @@ class Ridge_M(Data, object):
     """
     def __init__(self):
         Data.__init__(self)
+        self.acc, self.est_cv = Ridge_M.fit(self)
     
     @staticmethod
     @cross_validator
@@ -115,21 +99,31 @@ class Ridge_M(Data, object):
 
     @property
     def accuracy(self):
-        return Ridge_M.fit(self, self.data)
+        return self.acc
+    
+    def get_prediction(self):
+        return self.est_cv.predict(self.X)
 
 
 class ANN(Data, object):
     def __init__(self):
         Data.__init__(self)
         self.reg = MLPRegressor(solver='lbfgs', alpha=1e-5,
-                        hidden_layer_sizes=(5, 2), random_state=1)
+                            hidden_layer_sizes=(5, 2), random_state=1)
         self.reg.fit(self.X_train,
                      self.y_train[:,self.cold:self.cold+1].ravel())
+    
+    @property
+    def weights(self):
+        return self.reg.coefs_
 
     @property
     def accuracy(self):
         return self.reg.score(self.X_test,
-                        self.y_test[:,self.cold:self.cold+1].ravel())*100
+               self.y_test[:,self.cold:self.cold+1].ravel())*100
+    
+    def get_prediction(self):
+        return self.reg.predict(self.X_test)
 
 
 # PLOT GRAPHS
@@ -216,19 +210,72 @@ def plot_pd(data):
         plt.ylabel('Probability')
         plt.grid(True)
 
-    plt.show()
+        plt.show()
 
 
 def plot_spearman(sp_result, data):
     print [x[0].correlation for x in sp_result]
-    plt.bar(range(len(sp_result)), [x[0].correlation for x in sp_result],
-            tick_label=data.label[:8], align="center")
+    plt.bar(range(len(sp_result)), [x[0].correlation for x in sp_result], 
+        tick_label=data.label[:8], align="center")
     plt.title("Spearman correlation coefficient")
+    plt.show()
+
+def get_cov_matrix(data):
+    """
+        Compute the covariance matrix for the dataset
+    """
+    nf = len(data.label)
+    cov_matrix = []
+    for i in range(nf):
+        cov = []
+        for j in range(nf):
+            cov.append(spearmanr(data.data.ix[:, i:i+1].as_matrix(),
+                        data.data.ix[:, j:j+1].as_matrix()).correlation)
+        cov_matrix.append(cov)
+    
+    return cov_matrix
+
+def plot_cov_matrix(cov_matrix):
+    fig = plt.figure(figsize=(5, 5))
+    ax = fig.add_subplot(111)
+    ax.set_title('Color Map: Covariance matrix')
+    plt.imshow(cov_matrix)
+    ax.set_aspect('equal')
+    labels = ["X"+str(i) for i in range(9)]
+    labels.extend(["y1", "y2"])
+    ax.xaxis.set_major_locator(ticker.MultipleLocator(1))
+    ax.yaxis.set_major_locator(ticker.MultipleLocator(1))
+    ax.set_xticklabels(labels)
+    ax.set_yticklabels(labels)
+    cax = fig.add_axes([0,0.1,0.95,0.80])
+    cax.get_xaxis().set_visible(False)
+    cax.get_yaxis().set_visible(False)
+    cax.patch.set_alpha(0)
+    cax.set_frame_on(False)
+    plt.colorbar(orientation='vertical')
+    plt.show()
+
+def plot_output_target_graph(y_output_hl, y_output_cl, y_target):
+    plt.figure(1)
+    X = range(len(y_target[:, 0:1]))
+    plt.plot(X, y_target[:, 0:1], 'b+', label='Target HL')
+    plt.plot(X, y_output_hl, 'ro', label='Output HL')
+    plt.title("Target HL vs Output HL")
+    plt.xlabel("Sample number")
+    plt.ylabel("Responses")
+    plt.legend(loc='best')
+    plt.figure(2)
+    plt.plot(X, y_target[:, 1:2], 'b+', label='Target CL')
+    plt.plot(X, y_output_cl, 'ro', label='Output CL')
+    plt.title("Target CL vs Output CL")
+    plt.xlabel("Sample number")
+    plt.ylabel("Responses")
+    plt.legend(loc='best')
     plt.show()
 
 
 def main():
-    data = Data(cold=1)
+    data = Data(cold=0)
     ridge = Ridge_M()
     ann = ANN()
     models = [("Ridge", ridge), ("ANN", ann)]
@@ -236,10 +283,28 @@ def main():
     for model_name, model_obj in models:
         print model_name, model_obj.accuracy
     sp_result = data.get_sp_rank()
+    cov_matrix = get_cov_matrix(data)
+    print cov_matrix
+    plot_cov_matrix(cov_matrix)
     plot_feature_correlation(data)
     plot_model_accuracy(models)
     plot_pd(data)
     plot_spearman(sp_result, data)
+    
+    ann_y_output_hl = ann.get_prediction()
+    ridge_y_output_hl = ridge.get_prediction()
+    data.cold = 1
+    ann = ANN()
+    ridge = Ridge_M()
+    _ = ridge.accuracy
+    ann_y_output_cl = ann.get_prediction()
+    ridge_y_output_cl = ridge.get_prediction()
+    plot_output_target_graph(ann_y_output_hl, 
+                             ann_y_output_cl,
+                             data.y_test)
+    plot_output_target_graph(ridge_y_output_hl,
+                             ridge_y_output_cl,
+                             data.y)
     
     
 
