@@ -9,9 +9,4 @@ The template has separate files to generate the titlepage, abstract and bonafide
 If you add a new chapter file, make sure you remember to insert it into the main.tex file using `\input{ChapterX}` following the style of the previous insertions. 
 
 # How to compile it in Ubuntu 14.04.
-I'm compiling using texlive on ubuntu but it should work with MikTeX and other tex comilers on windows and mac as well.
- * Install texlive on ubuntu.
- * Install [latexmk](www.phys.psu.edu/~collins/software/latexmk-jcc/) (a perl script that automates compilation): `sudo apt-get install latexmk`
- * Download this repository as a zip file (Or git clone this repo)
- * `cd` to the unzipped folder
- * run `latexmk -pdf -pvc main.tex`
+I'm compiling using texlive on Fedora but it should work with MikTeX and other tex compilers on windows and mac as well.
