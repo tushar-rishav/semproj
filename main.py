@@ -216,26 +216,26 @@ def plot_spearman(sp_result, data):
     plt.title("Spearman correlation coefficient")
     plt.show()
 
-def get_cov_matrix(data):
+def get_corr_matrix(data):
     """
-        Compute the covariance matrix for the dataset
+        Compute the correlation matrix for the dataset
     """
     nf = len(data.label)-2
-    cov_matrix = []
+    corr_matrix = []
     for i in range(nf):
         cov = []
         for j in range(nf):
             cov.append(spearmanr(data.data.ix[:, i:i+1].as_matrix(),
                         data.data.ix[:, j:j+1].as_matrix()).correlation)
-        cov_matrix.append(cov)
+        corr_matrix.append(cov)
     
-    return cov_matrix
+    return corr_matrix
 
-def plot_cov_matrix(cov_matrix):
-    fig = plt.figure(figsize=(5, 5))
+def plot_corr_matrix(corr_matrix):    
+    fig = plt.figure(figsize=(20, 20))
     ax = fig.add_subplot(111)
-    ax.set_title('Color Map: Covariance matrix')
-    plt.imshow(cov_matrix)
+    ax.set_title('Color Map: Correlation matrix')
+    plt.imshow(corr_matrix, aspect='auto', interpolation='none', origin='lower')
     ax.set_aspect('equal')
     labels = ["X"+str(i) for i in range(9)]
     labels.extend(["y1", "y2"])
@@ -251,23 +251,79 @@ def plot_cov_matrix(cov_matrix):
     plt.colorbar(orientation='vertical')
     plt.show()
 
-def plot_output_target_graph(y_output_hl, y_output_cl, y_target):
-    plt.figure(1)
+def plot_output_target_graph(y_output_hl, y_output_cl, y_target, name):
     X = range(len(y_target[:, 0:1]))
+    dpi = 500   # save plots as high resolution images
+    b = 20
+    h = 20
+
+    # Plot HL
+    fig = plt.figure(figsize=(b, h), dpi=dpi)
+    
+    ax = fig.add_subplot(311)
+    ax.set_title('Target')
+    plt.xticks(range(1, len(X)+1))
     plt.plot(X, y_target[:, 0:1], 'b+', label='Target HL')
+    plt.ylabel("Responses")
+    plt.legend(loc='best')
+
+    ax = fig.add_subplot(312)
+    ax.set_title('Output')
+    plt.xticks(range(1, len(X)+1))
     plt.plot(X, y_output_hl, 'ro', label='Output HL')
-    plt.title("Target HL vs Output HL")
-    plt.xlabel("Sample number")
     plt.ylabel("Responses")
     plt.legend(loc='best')
-    plt.figure(2)
+
+    
+    ax = fig.add_subplot(313)
+    ax.set_title('Error')
+    plt.ylabel("Error")
+    plt.xticks(range(1, len(X)+1))
+    if name=="ann":
+        plt.bar(X, y_target[:, 1:2].ravel()-y_output_hl ,
+                tick_label=range(1, len(X)+1), align="center")
+    else:
+        plt.bar(X, y_target[:, 1:2]-y_output_hl ,
+                tick_label=range(1, len(X)+1), align="center")
+    plt.legend(loc='best')
+    fig.savefig("to_%s_hl.png"%(name), dpi=dpi)
+    print "Saved to_%s_hl.png"%(name)
+    # plt.show()
+
+
+    # Plot CL
+    fig = plt.figure(figsize=(b, h), dpi=dpi)
+    
+    ax = fig.add_subplot(311)
+    ax.set_title('Target')
+    plt.xticks(range(1, len(X)+1))
     plt.plot(X, y_target[:, 1:2], 'b+', label='Target CL')
-    plt.plot(X, y_output_cl, 'ro', label='Output CL')
-    plt.title("Target CL vs Output CL")
-    plt.xlabel("Sample number")
     plt.ylabel("Responses")
     plt.legend(loc='best')
-    plt.show()
+
+    ax = fig.add_subplot(312)
+    ax.set_title('Output')
+    plt.xticks(range(1, len(X)+1))
+    plt.plot(X, y_output_cl, 'ro', label='Output CL')
+    plt.ylabel("Responses")
+    plt.legend(loc='best')
+
+    
+    ax = fig.add_subplot(313)
+    ax.set_title('Error')
+    plt.ylabel("Error")
+    plt.xticks(range(1, len(X)+1))
+    if name=="ann":
+        plt.bar(X, y_target[:, 1:2].ravel()-y_output_cl ,
+                tick_label=range(1, len(X)+1), align="center")
+    else:
+        plt.bar(X, y_target[:, 1:2]-y_output_cl ,
+                tick_label=range(1, len(X)+1), align="center")
+
+    plt.legend(loc='best')
+    fig.savefig("to_%s_cl.png"%(name), dpi=dpi)
+    print "Saved to_%s_cl.png"%(name)
+    # plt.show()
 
 
 def main():
@@ -278,10 +334,10 @@ def main():
     
     for model_name, model_obj in models: print model_name, model_obj.accuracy
     sp_result = data.get_sp_rank()
-    cov_matrix = get_cov_matrix(data)
-    for el in cov_matrix:
+    corr_matrix = get_corr_matrix(data)
+    for el in corr_matrix:
         print el
-    plot_cov_matrix(cov_matrix)
+    plot_corr_matrix(corr_matrix)
     plot_feature_correlation(data)
     plot_model_accuracy(models)
     plot_pd(data)
@@ -293,8 +349,9 @@ def main():
     ridge = Ridge_M()
     _ = ridge.accuracy
     ann_y_output_cl, ridge_y_output_cl = ann.get_prediction(), ridge.get_prediction()
-    plot_output_target_graph(ann_y_output_hl, ann_y_output_cl, data.y_test)
-    plot_output_target_graph(ridge_y_output_hl, ridge_y_output_cl, data.y)
+
+    plot_output_target_graph(ann_y_output_hl, ann_y_output_cl, data.y_test, "ann")
+    plot_output_target_graph(ridge_y_output_hl, ridge_y_output_cl, data.y, "ridge")
     
     
 

@@ -207,7 +207,7 @@ Correlation plot between different features and between features and responses h
             \hline
           \end{tabular}
     \end{table}
-    \subsection{Covariance Matrix for features(X)}
+    \subsection{Correlation Matrix for features(X)}
           \begin{equation}
             \Corr(X, Y) = \frac{\Cov(X, Y)}{\sigma_{x}\sigma_{y}} = \frac{\E[(X-\mu_{x})(Y-\mu_{y})]}{\sigma_{x}\sigma_{y}}  
           \end{equation}
@@ -217,7 +217,7 @@ Correlation plot between different features and between features and responses h
               \begin{matrix}
                   1.0 & -1.0 & -0.254 & -0.870 & 0.869 & 0.002 & 0.003 & 0.003\\
 -1.0 & 1.0 & 0.254 & 0.870 & -0.869 & -0.002 & -0.004 & -0.003\\
--0.254 & 0.254 & 0.999 & -0.195 & 0.221 & -0.001 & -0.001 & -0.001\\
+-0.254 & 0.254 & 1.0 & -0.195 & 0.221 & -0.001 & -0.001 & -0.001\\
 -0.870 & 0.870 & -0.195 & 1.0 & -0.937 & -0.003 & -0.003 & -0.003\\
 0.869 & -0.869 & 0.221 & -0.937 & 1.0 & 0.002 & 0.002 & 0.002\\
 0.002 & -0.002 & -0.001 & -0.003 & 0.002 & 1.0 & -0.003 & -0.003\\
@@ -229,7 +229,7 @@ Correlation plot between different features and between features and responses h
     \begin{figure}[htbp]
       \hspace*{-6.1cm}
       \includegraphics[width=1.7\textwidth]{cov_matrix}
-      \caption{Covariance matrix shown as Colour Map}
+      \caption{Correlation matrix shown as Color Map}
       \label{fig:cov_matrix}
     \end{figure}
     \newpage  
